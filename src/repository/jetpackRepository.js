@@ -4,11 +4,11 @@ export class JetpackRepository {
     }
 
     create(jetpack) {
-        if (!jetpack) {
+        if (! jetpack) {
             throw 'Jetpack object is undefined';
         }
 
-        if (!jetpack.id || !jetpack.name) {
+        if (! jetpack.id || ! jetpack.name) {
             throw 'Jetpack object is missing information';
         }
 
