@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "46b36a10-2099-4081-b688-9dca404a405f",
-		"name": "Ensiie Test Back",
+		"_postman_id": "3ce2b3cb-4108-4910-9532-05272dc1aec1",
+		"name": "Jetpack API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Create a Jet Pack",
+			"name": "Create a jetpack",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -23,15 +23,19 @@
 					"script": {
 						"id": "4cffee8b-566b-4c46-aa99-e2b76d4487bc",
 						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
+							"pm.test(\"Status code is 201\", () => {",
 							"    pm.response.to.have.status(201);",
 							"});",
 							"",
-							"pm.test(\"Json bdy has information\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"Jet Pack à fusion X98371\");",
-							"    pm.expect(jsonData.image).to.eql(\"Base 64 ...\");",
-							"    pm.globals.set('jetpack.id', jsonData.id)",
+							"pm.test(\"Response is JSON\", () => {",
+							"    pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"JSON body has jetpack information\", () => {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data.name).to.eql(\"Fortnite jetpack\");",
+							"    pm.expect(data.image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
+							"    pm.globals.set(\"jetpack.id\", data.id)",
 							"});"
 						],
 						"type": "text/javascript"
@@ -50,7 +54,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Jet Pack à fusion X98371\",\n\t\"image\": \"Base 64 ...\"\n}"
+					"raw": "{\n\t\"name\": \"Fortnite jetpack\",\n\t\"image\": \"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\"\n}"
 				},
 				"url": {
 					"raw": "{{url}}/jetpacks",
@@ -65,7 +69,7 @@
 			"response": []
 		},
 		{
-			"name": "Get list Jet Packs",
+			"name": "Get all jetpacks",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -82,15 +86,23 @@
 					"script": {
 						"id": "4cffee8b-566b-4c46-aa99-e2b76d4487bc",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
+							"pm.test(\"Status code is 200\", () => {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Json bdy has information\", function () {",
-							"    var jsonData = pm.response.json();",
+							"pm.test(\"Response is JSON\", () => {",
+							"    pm.response.json();",
+							"});",
 							"",
-							"    pm.expect(jsonData[0].name).to.eql(\"Jet Pack à fusion X98371\");",
-							"    pm.expect(jsonData[0].image).to.eql(\"Base 64 ...\");",
+							"pm.test(\"JSON body has an array\", () => {",
+							"    pm.expect(pm.response.json()).to.be.an('array').but.not.an('object');",
+							"});",
+							"",
+							"pm.test(\"Array contains the default jetpack\", () => {",
+							"    const data = pm.response.json();",
+							"",
+							"    pm.expect(data[0].name).to.eql(\"Fortnite jetpack\");",
+							"    pm.expect(data[0].image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
 							"});"
 						],
 						"type": "text/javascript"
