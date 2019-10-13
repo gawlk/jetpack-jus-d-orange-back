@@ -6,7 +6,7 @@ import { createJetpackController } from './src/controller/createJetpackControlle
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 app.route('/jetpacks/:id?')
@@ -14,5 +14,5 @@ app.route('/jetpacks/:id?')
     .post(createJetpackController);
 
 app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
+    console.log('Jetpack back end server started on port 3000.');
 });

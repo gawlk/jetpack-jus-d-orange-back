@@ -22,6 +22,7 @@
     "deamon.stop": "pm2 stop app.js",
     "deamon.kill": "pm2 kill",
     "test": "jest",
+    "test.watch": "jest --watchAll",
     "test.coverage": "jest --coverage",
     "test.mutation": "stryker run",
     "test.api": "newman run tests/api/collection.json",
@@ -29,6 +30,10 @@
   },
   "jest": {
     "verbose": true,
+    "rootDir": "src",
+    "coverageReporters": [
+      "text"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 50,
@@ -36,7 +41,14 @@
         "lines": 50,
         "statements": 50
       }
-    }
+    },
+    "watchPathIgnorePatterns": [
+      "db.json"
+    ],
+    "coveragePathIgnorePatterns": [
+      "db.js",
+      "index.js"
+    ]
   },
   "author": "",
   "license": "ISC",

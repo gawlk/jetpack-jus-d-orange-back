@@ -1,21 +1,27 @@
+import { Jetpack } from "../entity";
+
 export class JetpackRepository {
     constructor(db) {
+        if (! db) {
+            throw 'ERROR: db object is missing';
+        }
+
         this.db = db;
     }
 
     create(jetpack) {
         if (! jetpack) {
-            throw 'Jetpack object is undefined';
+            throw 'ERROR: Jetpack object is missing';
         }
 
-        if (! jetpack.id || ! jetpack.name) {
-            throw 'Jetpack object is missing information';
+        if (jetpack.constructor.name !== 'Jetpack') {
+            throw 'ERROR: The parameter must be a Jetpack object';
         }
 
         this.db
             .get('jetpacks')
             .push(jetpack.toJson())
-            .write()
+            .write();
     }
 
     getAll() {

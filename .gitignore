@@ -6,3 +6,5 @@ reports
 db.json
 *.icloud
 .DS_Store
+stryker.log
+.stryker-tmp

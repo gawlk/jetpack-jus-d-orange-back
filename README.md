@@ -6,13 +6,27 @@
 
 ## Start
 
-`npm start`
+`npm run start`
+
+## Deamon
+
+### Start deamon
+
+`npm run deamon.start`
+
+### Stop deamon
+
+`npm run deamon.stop`
 
 ## Test
 
 ### Unit Tests
 
 `npm run test`
+
+### Unit Tests with watcher
+
+`npm run test.watch`
 
 ### Unit Tests with coverage
 
