@@ -3,5 +3,5 @@ import { getJetpackController } from './getJetpackController';
 
 export {
     createJetpack,
-    getJetpackController
+    getJetpackController,
 };

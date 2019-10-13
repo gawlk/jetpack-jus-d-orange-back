@@ -3,7 +3,7 @@ export class Jetpack {
         if (! id || ! name || ! image) {
             throw 'ERROR: Need an id, a name and an image.';
         } else if (typeof id !== 'string' || typeof name !== 'string' || typeof image !== 'string') {
-            throw 'ERROR: id, name and image should be strings'
+            throw 'ERROR: id, name and image should be strings';
         }
 
         this._id = id;
@@ -39,7 +39,7 @@ export class Jetpack {
         return {
             id : this.id,
             name: this.name,
-            image: this.image
-        }
+            image: this.image,
+        };
     }
 };
