@@ -1,9 +1,14 @@
+export const ErrorMessage = {
+    MissingArgument: 'ERROR: Need an id, a name and an image.',
+    WrongType: 'ERROR: id, name and image should be strings.',
+}
+
 export class Jetpack {
     constructor(id, name, image) {
         if (! id || ! name || ! image) {
-            throw 'ERROR: Need an id, a name and an image.';
+            throw ErrorMessage.MissingArgument;
         } else if (typeof id !== 'string' || typeof name !== 'string' || typeof image !== 'string') {
-            throw 'ERROR: id, name and image should be strings';
+            throw ErrorMessage.WrongType;
         }
 
         this._id = id;
@@ -13,10 +18,6 @@ export class Jetpack {
 
     get id() {
         return this._id;
-    }
-
-    set id(value) {
-        this._id = value;
     }
 
     get name() {

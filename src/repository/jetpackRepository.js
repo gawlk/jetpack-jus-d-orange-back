@@ -1,9 +1,13 @@
-import { Jetpack } from "../entity";
+export const ErrorMessage = {
+    MissingDatabase: 'ERROR: db object is missing.',
+    MissingJetpack: 'ERROR: Jetpack object is missing.',
+    WrongTypeJetpack: 'ERROR: The parameter must be a Jetpack object',
+}
 
 export class JetpackRepository {
     constructor(db) {
         if (! db) {
-            throw 'ERROR: db object is missing';
+            throw ErrorMessage.MissingDatabase;
         }
 
         this.db = db;
@@ -11,11 +15,11 @@ export class JetpackRepository {
 
     create(jetpack) {
         if (! jetpack) {
-            throw 'ERROR: Jetpack object is missing';
+            throw ErrorMessage.MissingJetpack;
         }
 
         if (jetpack.constructor.name !== 'Jetpack') {
-            throw 'ERROR: The parameter must be a Jetpack object';
+            throw ErrorMessage.WrongTypeJetpack;
         }
 
         this.db

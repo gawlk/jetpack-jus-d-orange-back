@@ -1,11 +1,14 @@
-import { JetpackRepository } from '.';
-import { Jetpack } from '../entity';
-import { defaultJetpack } from '../db';
+import {
+    ErrorMessage,
+    JetpackRepository
+} from '../jetpackRepository';
+import { Jetpack } from '../../entity';
+import { defaultJetpack } from '../../db';
 
 describe('JetpackRepository', () => {
     describe('constructor', () => {
-        test('() => Error', () => {
-            expect(() => new JetpackRepository()).toThrow();
+        test('() => Missing database', () => {
+            expect(() => new JetpackRepository()).toThrow(ErrorMessage.MissingDatabase);
         });
     });
 
@@ -18,14 +21,14 @@ describe('JetpackRepository', () => {
 
         const repository = new JetpackRepository(db);
 
-        test('() => Error', () => {
-            expect(() => repository.create()).toThrow();
+        test('() => Missing jetpack', () => {
+            expect(() => repository.create()).toThrow(ErrorMessage.MissingJetpack);
         });
 
-        test('(! jetpack) => Error', () => {
-            expect(() => repository.create(1)).toThrow();
-            expect(() => repository.create("test")).toThrow();
-            expect(() => repository.create({})).toThrow();
+        test('(! jetpack) => Wrong type', () => {
+            expect(() => repository.create(1)).toThrow(ErrorMessage.WrongTypeJetpack);
+            expect(() => repository.create("test")).toThrow(ErrorMessage.WrongTypeJetpack);
+            expect(() => repository.create({})).toThrow(ErrorMessage.WrongTypeJetpack);
         });
 
         test('(jetpack) => Ok', () => {
