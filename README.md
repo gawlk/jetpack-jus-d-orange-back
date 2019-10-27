@@ -1,5 +1,7 @@
 # JETPACK DE JUS D'ORANGE - Back end
 
+[![Actions Status](https://github.com/gawlk/jetpack-jus-d-orange-back/workflows/Node%20CI/badge.svg)](https://github.com/gawlk/jetpack-jus-d-orange-back/actions)
+
 ## Install
 
 `npm install`
