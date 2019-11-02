@@ -22,6 +22,10 @@
 
 ## Test
 
+### Run test.js
+
+`npm run test.file`
+
 ### Unit Tests
 
 `npm run test`
