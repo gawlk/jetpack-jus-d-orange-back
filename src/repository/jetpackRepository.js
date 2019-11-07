@@ -28,6 +28,20 @@ export class JetpackRepository {
             .write();
     }
 
+    update(jetpack) {
+        if (! jetpack) {
+            throw ErrorMessage.MissingJetpack;
+        }
+
+        if (jetpack.constructor.name !== 'Jetpack') {
+            throw ErrorMessage.WrongTypeJetpack;
+        }
+        this.db.get('jetpacks')
+          .find({ id: jetpack.id })
+          .assign({ name: jetpack.name },{ image: jetpack.image })
+          .write()
+    }
+
     getAll() {
         return this.db
             .get('jetpacks')
