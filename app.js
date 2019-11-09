@@ -5,6 +5,7 @@ import {
     createBookingController,
     createJetpackController,
     getJetpackController,
+    updateJetpackController,
 } from './src/controller';
 
 
@@ -15,7 +16,7 @@ app.use(bodyParser.json())
 
 
 app.route('/jetpacks/update')
-	.post(updateJetpackController);
+    .post(updateJetpackController);
 
 app.route('/jetpacks/:id?')
     .get(getJetpackController)

@@ -16,7 +16,8 @@ module.exports = function(config) {
       '! src/**/*.test.js',
       '! src/controller/**/*.js',
       '! src/db.js',
-      '! src/coverage'
+      '! src/coverage',
+      '! src/testFile.js'
     ]
   });
 };

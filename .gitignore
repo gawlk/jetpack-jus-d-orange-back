@@ -8,3 +8,4 @@ db.json
 .DS_Store
 stryker.log
 .stryker-tmp
+src/test*.js
