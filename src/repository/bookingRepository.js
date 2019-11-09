@@ -1,14 +1,21 @@
-export const ErrorMessage = {
+import { ErrorMessage,JetpackRepository } from './jetpackRepository';
+import { Jetpack } from '../entity';
+
+
+
+
+export const ErrorMessageBooking = {
     MissingDatabase: 'ERROR: db object is missing.',
-    MissingBooking: 'ERROR: Bookings object is missing.',
+    MissingBooking: 'ERROR: Booking object is missing.',
     WrongTypeBooking: 'ERROR: The parameter must be a Booking object',
     ImpossibleDateBooking: 'ERROR : Jetpack already booked for those dates', 
+    NoJetPackWithId : 'ERROR : No jetpack was found for this id',  
 }
 
 export class BookingRepository {
     constructor(db) {
         if (! db) {
-            throw ErrorMessage.MissingDatabase;
+            throw ErrorMessageBooking.MissingDatabase;
         }
 
         this.db = db;
@@ -16,21 +23,25 @@ export class BookingRepository {
 
     create(booking) {
         if (! booking) {
-            throw ErrorMessage.MissingJetpack;
+            throw ErrorMessageBooking.MissingBooking;
         }
 
         if (booking.constructor.name !== 'Booking') {
-            throw ErrorMessage.WrongTypeJetpack;
+            throw ErrorMessageBooking.WrongTypeBooking;
         }
+//         if (! this.existsJetpack(booking.jetpack_id)) {
+//          throw ErrorMessageBooking.NoJetPackWithId; 
+//         }
+            
         if (!this.isPossibleBooking(booking)) {
-            throw ErrorMessage.ImpossibleDateBooking; 
+            throw ErrorMessageBooking.ImpossibleDateBooking; 
         }
 
         this.db
             .get('bookings')
             .push(booking.toJson())
             .write();
-        return 'all ok';
+    
     }
 
     getAll() {
@@ -65,6 +76,16 @@ export class BookingRepository {
         return val; 
     }
     
+//     existsJetpack(jetpack_id) {
+//         const jetpackRepo = new JetpackRepository(this.db);
+//         const allJetpacks = jetpackRepo.getAll(); 
+//         for (let i of allJetpacks) {
+//             if(i.id == jetpack_id) {
+//                 return true;
+//             }
+//         }
+//         return false; 
+//     } 
     areDatesOverlapping(booking, bookingObject) {
         
         return (booking.end_date > new Date(bookingObject.start_date) && booking.start_date < new Date(bookingObject.start_date)) 
