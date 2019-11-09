@@ -1,9 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import { getJetpackController } from './src/controller/getJetpackController';
-import { createJetpackController } from './src/controller/createJetpackController';
-import { updateJetpackController } from './src/controller/updateJetpackController';
+import {
+    createBookingController,
+    createJetpackController,
+    getJetpackController,
+} from './src/controller';
+
 
 const app = express();
 
@@ -17,6 +20,9 @@ app.route('/jetpacks/update')
 app.route('/jetpacks/:id?')
     .get(getJetpackController)
     .post(createJetpackController);
+
+app.route('/bookings')
+    .post(createBookingController);
 
 
 app.listen(3000, function () {

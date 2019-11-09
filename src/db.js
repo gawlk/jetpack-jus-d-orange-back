@@ -10,9 +10,12 @@ const defaultJetpack = {
     image: 'https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png',
 };
 
-db.defaults({ jetpacks: [
-    defaultJetpack,
-]}).write();
+db.defaults({
+    jetpacks: [
+        defaultJetpack,
+    ],
+    bookings: []
+}).write();
 
 export {
     db,

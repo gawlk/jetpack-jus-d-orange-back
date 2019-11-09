@@ -2,6 +2,7 @@ export const ErrorMessage = {
     MissingArgument: 'ERROR: Need a jetpack id, a starting date and an end date.',
     WrongEndDate: 'ERROR: The date of the end of the reservation must be set on the same or on a later date than the starting one.',
     WrongType: 'ERROR: jetpack_id should be a string and dates should be.. dates.',
+    PastDate: 'ERROR: You can\'t book jetpack in the past',  
 }
 
 export class Booking {
@@ -17,11 +18,14 @@ export class Booking {
         }
 
         // Convert dates to ignore hours, minutes and seconds
-        start_date = new Date(start_date.toDateString());
-        end_date = new Date(end_date.toDateString());
+        start_date = new Date(start_date.toISOString().split('T')[0]);
+        end_date = new Date(end_date.toISOString().split('T')[0]);
         
         if (end_date < start_date) {
             throw ErrorMessage.WrongEndDate;
+        }
+        if(start_date < Date.now()) {
+            throw ErrorMessage.PastDate; 
         }
 
         this._jetpack_id = jetpack_id;
@@ -52,8 +56,8 @@ export class Booking {
     toJson() {
         return {
             jetpack_id : this.jetpack_id,
-            start_date: this.start_date.toDateString(),
-            end_date: this.end_date.toDateString(),
+            start_date: this.start_date.toISOString().split('T')[0],
+            end_date: this.end_date.toISOString().split('T')[0],
         };
     }
 };

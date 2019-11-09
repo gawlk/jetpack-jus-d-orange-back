@@ -1,7 +1,9 @@
-import { createJetpack } from './createJetpackController';
+import { createBookingController } from './bookJetpackController';
+import { createJetpackController } from './createJetpackController';
 import { getJetpackController } from './getJetpackController';
 
 export {
-    createJetpack,
+    createBookingController,
+    createJetpackController,
     getJetpackController,
 };
