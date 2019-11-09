@@ -7,7 +7,7 @@ const bookings = repository.getAll();
 
 const bookingsOfId = repository.getBookingsForId('48f3c314-75c7-4202-be2e-1b574235287b', bookings);
 
-const booking = new Booking('48f3c314-75c7-4202-be2e-1b574235287b', new Date('2019-12-27'), new Date('2019-12-30'));
+const booking = new Booking('48f3c314-75c7-4202-be2e-1b574235287b', new Date('2020-12-27'), new Date('2020-12-30'));
 
 const test = repository.create(booking); 
 

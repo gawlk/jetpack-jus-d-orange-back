@@ -49,8 +49,8 @@ describe('Booking', () => {
     describe('toJson', () => {
         test(`("id", new Date(2013, 0, 1), new Date(2013, 0, 2)) => {
             jetpack_id: "id",
-            start_date: "Tue Jan 01 2013",
-            end_date: "Wed Jan 02 2013"
+            start_date: "2013-01-01",
+            end_date: "2013-01-02"
         }`, () => {
             const jetpack_id = 'id';
             const start_date = new Date(2013, 0, 1);
@@ -60,8 +60,8 @@ describe('Booking', () => {
 
             expect(booking.toJson()).toMatchObject({
                 jetpack_id,
-                start_date: start_date.toDateString(),
-                end_date: end_date.toDateString(),
+                start_date: start_date.toISOString().split('T')[0],
+                end_date: end_date.toISOString().split('T')[0],
             })
         });
     });
