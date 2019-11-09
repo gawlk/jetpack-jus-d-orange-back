@@ -59,5 +59,31 @@ describe('JetpackRepository', () => {
 
             expect(repository.getAll()).toStrictEqual([ defaultJetpack ]);
         });
+    });
+
+    describe('update', () => {
+        const db = {
+            get: jest.fn().mockReturnThis(),
+            find: jest.fn().mockReturnThis(),
+            assign: jest.fn().mockReturnThis(),
+            write: jest.fn().mockReturnThis(),
+        };
+
+        const repository = new JetpackRepository(db);
+
+        test('() => Missing jetpack', () => {
+            expect(() => repository.update()).toThrow(ErrorMessage.MissingJetpack);
+        });
+
+        test('(! jetpack) => Wrong type', () => {
+            expect(() => repository.update(2)).toThrow(ErrorMessage.WrongTypeJetpack);
+            expect(() => repository.update("test2")).toThrow(ErrorMessage.WrongTypeJetpack);
+            expect(() => repository.update({})).toThrow(ErrorMessage.WrongTypeJetpack);
+        });
+
+        test('(jetpack) => Ok', () => {
+            repository.update(new Jetpack('test', 'test2', 'test2'));
+            expect(db.write.mock.calls.length).toBe(1);
+        });
     });    
 });

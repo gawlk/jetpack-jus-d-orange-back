@@ -7,10 +7,15 @@ import {
     getJetpackController,
 } from './src/controller';
 
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
+
+
+app.route('/jetpacks/update')
+	.post(updateJetpackController);
 
 app.route('/jetpacks/:id?')
     .get(getJetpackController)
@@ -18,6 +23,7 @@ app.route('/jetpacks/:id?')
 
 app.route('/bookings')
     .post(createBookingController);
+
 
 app.listen(3000, function () {
     console.log('Jetpack back end server started on port 3000.');

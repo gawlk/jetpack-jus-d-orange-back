@@ -27,6 +27,7 @@
     "test.watch": "jest --watchAll",
     "test.coverage": "jest --coverage",
     "test.mutation": "stryker run",
+    "test.file": "babel-node src/testFile.js",
     "test.api": "newman run tests/api/collection.json",
     "test.all": "npm run test && npm run test.coverage && npm run test.mutation && npm run test.api",
     "test.bookingrepo": "babel-node src/testBookingRepo.js"
