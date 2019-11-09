@@ -166,8 +166,8 @@
 							"pm.test(\"JSON body has jetpack information\", () => {",
 							"    const data = pm.response.json();",
 							"    pm.expect(data.jetpack_id).to.eql(\"1b7c40d5-9966-4cae-8cfe-f54f75dd4b32\");",
-							"    pm.expect(data.start_date).to.eql(\"2019-12-30\");",
-							"    pm.expect(data.end_date).to.eql(\"2019-12-31\");",
+							"    pm.expect(data.start_date).to.eql(\"2027-12-26\");",
+							"    pm.expect(data.end_date).to.eql(\"2027-12-31\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -186,7 +186,12 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"jetpack_id\": \"1b7c40d5-9966-4cae-8cfe-f54f75dd4b32\",\n\t\"start_date\": \"2019-12-26\",\n\t\"end_date\": \"2019-12-31\"\n}"
+					"raw": "{\n\t\"jetpack_id\": \"1b7c40d5-9966-4cae-8cfe-f54f75dd4b32\",\n\t\"start_date\": \"2027-12-26\",\n\t\"end_date\": \"2027-12-31\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{url}}/bookings",
