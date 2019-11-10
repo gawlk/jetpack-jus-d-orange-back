@@ -1,3 +1,6 @@
+import { ErrorMessageBooking,BookingRepository } from './bookingRepository';
+import {Booking} from '../entity';
+
 export const ErrorMessage = {
     MissingDatabase: 'ERROR: db object is missing.',
     MissingJetpack: 'ERROR: Jetpack object is missing.',
@@ -46,5 +49,17 @@ export class JetpackRepository {
         return this.db
             .get('jetpacks')
             .value();
+    }
+    
+    getAvailable(date1, date2) {
+        const bookingRepo = new BookingRepository(this.db); 
+        const jetpacks = this.getAll(); 
+        let result = new Array(); 
+        for (let jetpack of jetpacks) {
+            if (bookingRepo.isPossible(new Booking(jetpack.id, date1, date2))) {
+                result.push(jetpack); 
+            }
+        }
+        return result; 
     }
 };
