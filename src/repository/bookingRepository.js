@@ -29,10 +29,13 @@ export class BookingRepository {
         if (booking.constructor.name !== 'Booking') {
             throw ErrorMessageBooking.WrongTypeBooking;
         }
-//         if (! this.existsJetpack(booking.jetpack_id)) {
-//          throw ErrorMessageBooking.NoJetPackWithId; 
-//         }
-            
+/*        const jetpacksRepo = new JetpackRepository(this.db);
+        const jetpackIdList = jetpacksRepo.getIdList(); 
+        
+        if (! this.existsJetpack(booking.jetpack_id, jetpackIdList)) {
+         throw ErrorMessageBooking.NoJetPackWithId; 
+        }
+           */ 
         if (!this.isPossibleBooking(booking)) {
             throw ErrorMessageBooking.ImpossibleDateBooking; 
         }
@@ -76,11 +79,9 @@ export class BookingRepository {
         return val; 
     }
     
-//     existsJetpack(jetpack_id) {
-//         const jetpackRepo = new JetpackRepository(this.db);
-//         const allJetpacks = jetpackRepo.getAll(); 
-//         for (let i of allJetpacks) {
-//             if(i.id == jetpack_id) {
+//     existsJetpack(jetpack_id, idList) {
+//         for (let i of idList) {
+//             if(i == jetpack_id) {
 //                 return true;
 //             }
 //         }
