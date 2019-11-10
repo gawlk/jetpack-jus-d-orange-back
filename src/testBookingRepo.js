@@ -4,9 +4,7 @@ import {Jetpack} from './entity';
 
 const repository = new JetpackRepository(db);
 const toCheck = repository.getAll(); 
-const test = repository.getIdList(); 
 
-const repoBook = new BookingRepository(db); 
 // const check = repoBook.existsJetpack('bonsoir', test); 
 
 
@@ -21,8 +19,8 @@ console.log('-----------------------------------------------------------------')
 // const jet = new Jetpack('ghdfhudfh', 'dfkgk', 'sdgbjxgbkdjg');
 // repository.create(jet); 
 // const dummy = repository.getAll(); 
-const available = repository.getAvailable(new Date('2019-11-30'), new Date('2019-12-07'));
-console.log(available); 
+const test = repository.getById('48f3c314-75c7-4202-be2e-1b574235287b');
+console.log(test); 
 
 
 

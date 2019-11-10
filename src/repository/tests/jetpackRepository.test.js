@@ -172,6 +172,50 @@ describe('JetpackRepository', () => {
         
     });
     });
+ describe('getbyid ', () => {
+        test('() => returns jetpack', () => {
+            const db = {
+                get: jest.fn().mockReturnThis(),
+                value: jest.fn().mockReturnValue([ defaultJetpack ]),
+            };
 
+            const repository = new JetpackRepository(db);
+
+            expect(repository.getById('48f3c314-75c7-4202-be2e-1b574235287b')).toStrictEqual(defaultJetpack);
+        
+    });
+    test('() => no jetpacks', () => {
+            const db = {
+                get: jest.fn().mockReturnThis(),
+                value: jest.fn().mockReturnValue([ defaultJetpack ]),
+            };
+            
+            const repository = new JetpackRepository(db);
+            
+            expect(() => repository.getById('test')).toThrow(ErrorMessage.UndefinedID);
+    });
+         test('() => returns jetpack', () => {
+            const db = {
+                get: jest.fn().mockReturnThis(),
+                value: jest.fn().mockReturnValue([]),
+            };
+
+            const repository = new JetpackRepository(db);
+            expect(() => repository.getById('48f3c314-75c7-4202-be2e-1b574235287b')).toThrow(ErrorMessage.UndefinedID);
+
+        
+    });
+    test('() => no jetpacks', () => {
+            const db = {
+                get: jest.fn().mockReturnThis(),
+                value: jest.fn().mockReturnValue([]),
+            };
+            
+            const repository = new JetpackRepository(db);
+            
+            expect(() => repository.getById('test')).toThrow(ErrorMessage.UndefinedID);
+    });
+ 
+    });
 });
 
