@@ -7,23 +7,22 @@ const toCheck = repository.getAll();
 const test = repository.getIdList(); 
 
 const repoBook = new BookingRepository(db); 
-const check = repoBook.existsJetpack('bonsoir', test); 
+// const check = repoBook.existsJetpack('bonsoir', test); 
 
-console.log(toCheck); 
-
-console.log('-----------------------------------------------------------------'); 
-
-console.log(test); 
 
 console.log('-----------------------------------------------------------------'); 
 
-console.log(check);
+// console.log(test); 
+
+console.log('-----------------------------------------------------------------'); 
+// 
+// console.log(check);
 
 // const jet = new Jetpack('ghdfhudfh', 'dfkgk', 'sdgbjxgbkdjg');
 // repository.create(jet); 
 // const dummy = repository.getAll(); 
-// const available = repository.getAvailable(new Date('2019-11-30'), new Date('2019-12-07'));
-// console.log(available); 
+const available = repository.getAvailable(new Date('2019-11-30'), new Date('2019-12-07'));
+console.log(available); 
 
 
 
