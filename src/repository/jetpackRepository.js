@@ -5,6 +5,7 @@ export const ErrorMessage = {
     MissingDatabase: 'ERROR: db object is missing.',
     MissingJetpack: 'ERROR: Jetpack object is missing.',
     WrongTypeJetpack: 'ERROR: The parameter must be a Jetpack object',
+    UndefinedID: 'ERROR : No jetpack found with this id', 
 }
 
 export class JetpackRepository {
@@ -69,5 +70,14 @@ export class JetpackRepository {
             result.push(jetpack.id);
         }
         return result; 
+    }
+    getById(id) {
+        const all = this.getAll(); 
+        for (let jetpack of all) {
+            if(jetpack.id == id) {
+                return jetpack; 
+            } 
+        }
+        throw ErrorMessage.UndefinedID; 
     }
 };
