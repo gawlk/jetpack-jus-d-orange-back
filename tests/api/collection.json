@@ -164,12 +164,7 @@
 							"    pm.expect(data[0].image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
 							"",
 							"});",
-							"pm.test(\"Array is size 3\", () => {",
-							"    const data = pm.response.json();",
-							"    pm.expect(data.length).to.eql(3);",
-							"",
-							"",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
