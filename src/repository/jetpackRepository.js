@@ -56,9 +56,17 @@ export class JetpackRepository {
         const jetpacks = this.getAll(); 
         let result = new Array(); 
         for (let jetpack of jetpacks) {
-            if (bookingRepo.isPossible(new Booking(jetpack.id, date1, date2))) {
+            if (bookingRepo.isPossibleBooking(new Booking(jetpack.id, date1, date2))) {
                 result.push(jetpack); 
             }
+        }
+        return result; 
+    }
+    getIdList() {
+        const list = this.getAll(); 
+        let result= new Array(); 
+        for (let jetpack of list) {
+            result.push(jetpack.id);
         }
         return result; 
     }

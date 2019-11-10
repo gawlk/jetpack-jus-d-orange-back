@@ -26,6 +26,7 @@ describe('create', () => {
     const nonOverBooking = new Booking('48f3c314-75c7-4202-be2e-1b574235287b', new Date('2020-09-10'), new Date('2020-09-20'));
     
     const notBookedJetpack = new Booking('48f3c314-75c7-4202-be2e-1b574235287c', new Date('2020-07-10'), new Date('2020-07-20'));
+    
     const db = {
             get: jest.fn().mockReturnThis(),
             push: jest.fn().mockReturnThis(),
@@ -60,7 +61,7 @@ describe('create', () => {
             expect(() => repository.isPossibleBooking(nonOverBooking).toBe(true));
             expect(() => repository.isPossibleBooking(notBookedJetpack).toBe(true));
         });
-        
+
         test('(booking) => Ok create', () => {
             repository.create(nonOverBooking);
             expect(db.write.mock.calls.length).toBe(1);
