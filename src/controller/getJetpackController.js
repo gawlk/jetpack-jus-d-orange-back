@@ -10,7 +10,7 @@ export const getJetpackController = (req, res) => {
         const date2 = new Date(req.query.end_date);
         res.status(200).send(repository.getAvailable(date1, date2));
         
-    } else if(req.query.id) {
+    } else if (req.query.id) {
         res.status(200).send(repository.getById(req.query.id));
     }
     else {

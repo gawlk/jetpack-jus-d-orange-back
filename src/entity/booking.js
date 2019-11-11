@@ -15,16 +15,9 @@ export class Booking {
             || end_date.constructor.name !== 'Date'
         ) {
             throw ErrorMessage.WrongType;
-        }
-
-        // Convert dates to ignore hours, minutes and seconds
-        start_date = new Date(start_date.toISOString().split('T')[0]);
-        end_date = new Date(end_date.toISOString().split('T')[0]);
-        
-        if (end_date < start_date) {
+        } else if (end_date < start_date) {
             throw ErrorMessage.WrongEndDate;
-        }
-        if(start_date < Date.now()) {
+        } else if (start_date < Date.now()) {
             throw ErrorMessage.PastDate; 
         }
 
@@ -41,23 +34,15 @@ export class Booking {
         return this._start_date;
     }
 
-    set start_date(value) {
-        this._start_date = value;
-    }
-
     get end_date() {
         return this._end_date;
-    }
-
-    set end_date(value) {
-        this._end_date = value;
     }
 
     toJson() {
         return {
             jetpack_id : this.jetpack_id,
-            start_date: this.start_date.toISOString().split('T')[0],
-            end_date: this.end_date.toISOString().split('T')[0],
+            start_date: this.start_date.toISOString(),
+            end_date: this.end_date.toISOString(),
         };
     }
 };

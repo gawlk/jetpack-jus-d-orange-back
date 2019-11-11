@@ -1,6 +1,9 @@
+import isImageUrl from 'is-image-url';
+
 export const ErrorMessage = {
     MissingArgument: 'ERROR: Need an id, a name and an image.',
     WrongType: 'ERROR: id, name and image should be strings.',
+    MustBeImageUrl: 'ERROR: Image parameter must a URL to an image',
 }
 
 export class Jetpack {
@@ -9,6 +12,8 @@ export class Jetpack {
             throw ErrorMessage.MissingArgument;
         } else if (typeof id !== 'string' || typeof name !== 'string' || typeof image !== 'string') {
             throw ErrorMessage.WrongType;
+        } else if (! isImageUrl(image)) {
+            throw ErrorMessage.MustBeImageUrl;
         }
 
         this._id = id;
@@ -24,16 +29,8 @@ export class Jetpack {
         return this._name;
     }
 
-    set name(value) {
-        this._name = value;
-    }
-
     get image() {
         return this._image;
-    }
-
-    set image(value) {
-        this._image = value;
     }
 
     toJson() {

@@ -1,7 +1,7 @@
+import { BookingRepository } from './bookingRepository';
 import { JetpackRepository } from './jetpackRepository';
 
-export { JetpackRepository };
-
-import { BookingRepository } from './bookingRepository';
-
-export { BookingRepository };
+export {
+    BookingRepository,
+    JetpackRepository,
+};

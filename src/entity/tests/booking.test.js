@@ -40,6 +40,22 @@ describe('Booking', () => {
             expect(() => new Booking('id', date1, 1)).toThrow(ErrorMessage.WrongType);
         });
 
+        test('(!string, date, !date) => Wrong type', () => {
+            expect(() => new Booking(1, date1, 1)).toThrow(ErrorMessage.WrongType);
+        });
+
+        test('(!string, !date, !date) => Wrong type', () => {
+            expect(() => new Booking(1, 1, date1)).toThrow(ErrorMessage.WrongType);
+        });
+
+        test('(string, !date, !date) => Wrong type', () => {
+            expect(() => new Booking('id', 1, 1)).toThrow(ErrorMessage.WrongType);
+        });
+
+        test('(!string, !date, !date) => Wrong type', () => {
+            expect(() => new Booking(1, 1, 1)).toThrow(ErrorMessage.WrongType);
+        });
+
         test('(id, dateEnd, dateStart) => Wrong end date', () => {
             expect(() => new Booking('id', date2, date1)).toThrow(ErrorMessage.WrongEndDate);
         });
@@ -63,8 +79,8 @@ describe('Booking', () => {
 
             expect(booking.toJson()).toMatchObject({
                 jetpack_id,
-                start_date: start_date.toISOString().split('T')[0],
-                end_date: end_date.toISOString().split('T')[0],
+                start_date: start_date.toISOString(),
+                end_date: end_date.toISOString(),
             })
         });
     });
