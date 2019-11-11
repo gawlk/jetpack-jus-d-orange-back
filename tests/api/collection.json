@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ddd136ab-b21c-4f35-8573-f8c71f1a192a",
+		"_postman_id": "232a3f2c-5414-474f-bad8-1d4e713cd537",
 		"name": "Jetpack API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -370,6 +370,75 @@
 					],
 					"path": [
 						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a jetpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "872f4142-0303-4244-a379-1a51bf2f01a9",
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", () => {",
+							"    pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"JSON body has jetpack information\", () => {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data.id).to.eql(\"test\");",
+							"    pm.expect(data.name).to.eql(\"Fortnite jetpack\");",
+							"    pm.expect(data.image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "605bfcb0-3c5c-4b72-8bb4-36f8c9f51ba4",
+						"exec": [
+							"pm.globals.set('url', 'http://localhost:3000')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"test\",\n\t\"name\": \"Fortnite jetpack\",\n\t\"image\": \"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/jetpacks/update",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jetpacks",
+						"update"
 					]
 				}
 			},
