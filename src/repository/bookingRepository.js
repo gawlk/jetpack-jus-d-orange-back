@@ -1,8 +1,4 @@
-import { ErrorMessage,JetpackRepository } from './jetpackRepository';
-import { Jetpack } from '../entity';
-
-
-
+import { JetpackRepository } from './jetpackRepository';
 
 export const ErrorMessageBooking = {
     MissingDatabase: 'ERROR: db object is missing.',
@@ -21,22 +17,30 @@ export class BookingRepository {
         this.db = db;
     }
 
+    areDatesOverlapping(b1, b2) {
+        const b1StartsInb2 = new Date(b1.start_date) < new Date(b2.end_date)
+            && new Date(b1.end_date) > new Date(b2.end_date);
+
+        const b1EndsInb2 = new Date(b1.end_date) > new Date(b2.start_date)
+            && new Date(b1.start_date) < new Date(b2.start_date);
+
+        const b1IsAroundb2 = new Date(b1.start_date) >= new Date(b2.start_date)
+            && new Date(b1.end_date) <= new Date(b2.end_date);
+
+        return b1StartsInb2 || b1EndsInb2 || b1IsAroundb2;
+    }
+
     create(booking) {
         if (! booking) {
             throw ErrorMessageBooking.MissingBooking;
-        }
-
-        if (booking.constructor.name !== 'Booking') {
+        } else if (booking.constructor.name !== 'Booking') {
             throw ErrorMessageBooking.WrongTypeBooking;
         }
-/*        const jetpacksRepo = new JetpackRepository(this.db);
-        const jetpackIdList = jetpacksRepo.getIdList(); 
+
+        const jetpacksRepo = new JetpackRepository(this.db);
+        jetpacksRepo.getById(booking.jetpack_id);
         
-        if (! this.existsJetpack(booking.jetpack_id, jetpackIdList)) {
-         throw ErrorMessageBooking.NoJetPackWithId; 
-        }
-           */ 
-        if (!this.isPossibleBooking(booking)) {
+        if (! this.isPossibleBooking(booking)) {
             throw ErrorMessageBooking.ImpossibleDateBooking; 
         }
 
@@ -52,45 +56,31 @@ export class BookingRepository {
             .get('bookings')
             .value();
     }
-    
-    isPossibleBooking(booking) {
-     const allBookings = this.getAll();
-     const filteredBookings = this.getBookingsForId(booking.jetpack_id, allBookings); 
-     if(filteredBookings.length === 0) {
-         return true;}
-     else {
-         for(let i of filteredBookings) {
-            if (this.areDatesOverlapping(booking, i)){
-                return false; 
-            } 
-         }
-         return true; 
-     } 
-     
-    }
-    
+
     getBookingsForId(id, allBookings) {
-        let val = new Array(); 
+        const bookings = new Array();
+
         for (let i of allBookings) {
-            if(i.jetpack_id == id) {
-                val.push(i); 
+            if (i.jetpack_id == id) {
+                bookings.push(i);
             }
         }
-        return val; 
+        return bookings;
     }
-    
-//     existsJetpack(jetpack_id, idList) {
-//         for (let i of idList) {
-//             if(i == jetpack_id) {
-//                 return true;
-//             }
-//         }
-//         return false; 
-//     } 
-    areDatesOverlapping(booking, bookingObject) {
-        
-        return (booking.end_date > new Date(bookingObject.start_date) && booking.start_date < new Date(bookingObject.start_date)) 
-                || (booking.start_date >= new Date(bookingObject.start_date) && booking.end_date <= new Date(bookingObject.end_date))
-                || (booking.start_date < new Date(bookingObject.end_date) && booking.end_date > new Date(bookingObject.end_date))
+
+    isPossibleBooking(booking) {
+        const allBookings = this.getAll();
+        const filteredBookings = this.getBookingsForId(booking.jetpack_id, allBookings);
+
+        if (filteredBookings.length === 0) {
+            return true;
+        } else {
+            for (let i of filteredBookings) {
+                if (this.areDatesOverlapping(booking.toJson(), i)){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }; 

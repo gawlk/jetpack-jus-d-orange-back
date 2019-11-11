@@ -5,7 +5,8 @@ export const ErrorMessage = {
     MissingDatabase: 'ERROR: db object is missing.',
     MissingJetpack: 'ERROR: Jetpack object is missing.',
     WrongTypeJetpack: 'ERROR: The parameter must be a Jetpack object',
-    UndefinedID: 'ERROR : No jetpack found with this id', 
+    UndefinedID: 'ERROR : No jetpack found with this id',
+    MissingId: 'ERROR: ID parameter is missing.',
 }
 
 export class JetpackRepository {
@@ -20,9 +21,7 @@ export class JetpackRepository {
     create(jetpack) {
         if (! jetpack) {
             throw ErrorMessage.MissingJetpack;
-        }
-
-        if (jetpack.constructor.name !== 'Jetpack') {
+        } else if (jetpack.constructor.name !== 'Jetpack') {
             throw ErrorMessage.WrongTypeJetpack;
         }
 
@@ -32,52 +31,61 @@ export class JetpackRepository {
             .write();
     }
 
-    update(jetpack) {
-        if (! jetpack) {
-            throw ErrorMessage.MissingJetpack;
-        }
-
-        if (jetpack.constructor.name !== 'Jetpack') {
-            throw ErrorMessage.WrongTypeJetpack;
-        }
-        this.db.get('jetpacks')
-          .find({ id: jetpack.id })
-          .assign({ name: jetpack.name },{ image: jetpack.image })
-          .write()
-    }
-
     getAll() {
         return this.db
             .get('jetpacks')
             .value();
     }
-    
+
     getAvailable(date1, date2) {
-        const bookingRepo = new BookingRepository(this.db); 
-        const jetpacks = this.getAll(); 
-        let result = new Array(); 
+        const bookingRepo = new BookingRepository(this.db);
+        const jetpacks = this.getAll();
+        let result = new Array();
         for (let jetpack of jetpacks) {
             if (bookingRepo.isPossibleBooking(new Booking(jetpack.id, date1, date2))) {
-                result.push(jetpack); 
+                result.push(jetpack);
             }
         }
-        return result; 
+        return result;
     }
+
+    getById(id) {
+        if (! id) {
+            throw ErrorMessage.MissingId;
+        }
+
+        id = String(id);
+
+        const all = this.getAll();
+
+        for (let jetpack of all) {
+            if (jetpack.id === id) {
+                return jetpack;
+            }
+        }
+        throw ErrorMessage.UndefinedID;
+    }
+
     getIdList() {
-        const list = this.getAll(); 
-        let result= new Array(); 
+        const list = this.getAll();
+        let result = new Array();
+
         for (let jetpack of list) {
             result.push(jetpack.id);
         }
-        return result; 
+        return result;
     }
-    getById(id) {
-        const all = this.getAll(); 
-        for (let jetpack of all) {
-            if(jetpack.id == id) {
-                return jetpack; 
-            } 
+
+    update(jetpack) {
+        if (! jetpack) {
+            throw ErrorMessage.MissingJetpack;
+        } else if (jetpack.constructor.name !== 'Jetpack') {
+            throw ErrorMessage.WrongTypeJetpack;
+        } else if (this.getById(jetpack.id)) {
+            this.db.get('jetpacks')
+                .find({ id: jetpack.id })
+                .assign({ name: jetpack.name },{ image: jetpack.image })
+                .write()
         }
-        throw ErrorMessage.UndefinedID; 
     }
 };

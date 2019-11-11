@@ -1,19 +1,25 @@
 {
 	"info": {
-		"_postman_id": "ddd136ab-b21c-4f35-8573-f8c71f1a192a",
+		"_postman_id": "be828342-aa8c-4964-a19b-f893c0d3058c",
 		"name": "Jetpack API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Create a jetpack",
+			"name": "1. Create a jetpack",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"id": "29cc937c-0294-49cd-ba3e-31f7b5f41eac",
 						"exec": [
-							"pm.globals.set('url', 'http://localhost:3000')"
+							"",
+							"pm.globals.set('url', 'http://localhost:3000')",
+							"",
+							"pm.globals.set('jetpack1.name', 'Fortnite jetpack');",
+							"pm.globals.set('jetpack1.image', 'https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png');",
+							"pm.globals.set('jetpack2.name', 'Fortnite jetpack 2');",
+							"pm.globals.set('jetpack2.image', 'https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png');"
 						],
 						"type": "text/javascript"
 					}
@@ -31,11 +37,11 @@
 							"    pm.response.json();",
 							"});",
 							"",
-							"pm.test(\"JSON body has jetpack information\", () => {",
+							"pm.test(\"JSON body has new jetpack information\", () => {",
 							"    const data = pm.response.json();",
-							"    pm.expect(data.name).to.eql(\"Fortnite jetpack\");",
-							"    pm.expect(data.image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
-							"    pm.globals.set(\"jetpack.id\", data.id)",
+							"    pm.expect(data.name).to.eql(pm.variables.get('jetpack2.name'));",
+							"    pm.expect(data.image).to.eql(pm.variables.get('jetpack2.image'));",
+							"    pm.globals.set(\"jetpack2.id\", data.id)",
 							"});"
 						],
 						"type": "text/javascript"
@@ -54,7 +60,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Fortnite jetpack\",\n\t\"image\": \"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\"\n}"
+					"raw": "{\n\t\"name\": \"{{jetpack2.name}}\",\n\t\"image\": \"{{jetpack2.image}}\"\n}"
 				},
 				"url": {
 					"raw": "{{url}}/jetpacks",
@@ -69,7 +75,7 @@
 			"response": []
 		},
 		{
-			"name": "Get all jetpacks",
+			"name": "2. Get all jetpacks",
 			"event": [
 				{
 					"listen": "test",
@@ -88,10 +94,12 @@
 							"    pm.expect(pm.response.json()).to.be.an('array').but.not.an('object');",
 							"});",
 							"",
-							"pm.test(\"Array contains the default jetpack\", () => {",
+							"pm.test(\"Array default jetpack and previously created jetpack\", () => {",
 							"    const data = pm.response.json();",
-							"    pm.expect(data[0].name).to.eql(\"Fortnite jetpack\");",
-							"    pm.expect(data[0].image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
+							"    pm.expect(data[0].name).to.eql(pm.variables.get('jetpack1.name'));",
+							"    pm.expect(data[0].image).to.eql(pm.variables.get('jetpack1.image'));",
+							"    pm.expect(data[1].name).to.eql(pm.variables.get('jetpack2.name'));",
+							"    pm.expect(data[1].image).to.eql(pm.variables.get('jetpack2.image'));",
 							"});"
 						],
 						"type": "text/javascript"
@@ -138,7 +146,7 @@
 			"response": []
 		},
 		{
-			"name": "Get jetpack by id",
+			"name": "3. Get jetpack by id",
 			"event": [
 				{
 					"listen": "test",
@@ -157,11 +165,11 @@
 							"    pm.expect(pm.response.json()).to.be.an('object');",
 							"});",
 							"",
-							"pm.test(\"Array contains the default jetpack\", () => {",
+							"pm.test(\"Array contains the searched jetpack\", () => {",
 							"    const data = pm.response.json();",
-							"    pm.expect(data.id).to.eql(\"48f3c314-75c7-4202-be2e-1b574235287b\");",
-							"    pm.expect(data.name).to.eql(\"Fortnite jetpack\");",
-							"    pm.expect(data.image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
+							"    pm.expect(data.id).to.eql(pm.variables.get('jetpack2.id'));",
+							"    pm.expect(data.name).to.eql(pm.variables.get('jetpack2.name'));",
+							"    pm.expect(data.image).to.eql(pm.variables.get('jetpack2.image'));",
 							"});",
 							"",
 							""
@@ -203,7 +211,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/jetpacks?id=48f3c314-75c7-4202-be2e-1b574235287b",
+					"raw": "{{url}}/jetpacks?id={{jetpack2.id}}",
 					"host": [
 						"{{url}}"
 					],
@@ -213,7 +221,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "48f3c314-75c7-4202-be2e-1b574235287b"
+							"value": "{{jetpack2.id}}"
 						}
 					]
 				}
@@ -221,33 +229,28 @@
 			"response": []
 		},
 		{
-			"name": "Get jetpacks for dates",
+			"name": "4. Update a jetpack",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "efb2687c-951d-4731-ba47-8dc5146a40d4",
+						"id": "872f4142-0303-4244-a379-1a51bf2f01a9",
 						"exec": [
-							"pm.test(\"Status code is 200\", () => {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
 							"});",
 							"",
 							"pm.test(\"Response is JSON\", () => {",
 							"    pm.response.json();",
 							"});",
 							"",
-							"pm.test(\"JSON body has an array\", () => {",
-							"    pm.expect(pm.response.json()).to.be.an('array').but.not.an('object');",
-							"});",
-							"",
-							"pm.test(\"Array contains default jetpack\", () => {",
+							"pm.test(\"JSON body has new jetpack information\", () => {",
 							"    const data = pm.response.json();",
-							"    pm.expect(data[0].id).to.eql(\"48f3c314-75c7-4202-be2e-1b574235287b\");",
-							"    pm.expect(data[0].name).to.eql(\"Fortnite jetpack\");",
-							"    pm.expect(data[0].image).to.eql(\"https://gamepedia.cursecdn.com/fortnite_gamepedia/e/e1/Jetpack_icon.png\");",
-							"",
-							"});",
-							""
+							"    pm.expect(data.id).to.eql(pm.variables.get('jetpack2.id'));",
+							"    pm.expect(data.name).to.eql('jetpack');",
+							"    pm.globals.set('jetpack2.name', data.name)",
+							"    pm.expect(data.image).to.eql(pm.variables.get('jetpack2.image'));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -255,7 +258,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "dd75af15-3802-4bf6-8680-85c406b09d77",
+						"id": "605bfcb0-3c5c-4b72-8bb4-36f8c9f51ba4",
 						"exec": [
 							"pm.globals.set('url', 'http://localhost:3000')"
 						],
@@ -263,11 +266,8 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -278,7 +278,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\n\t\"id\": \"{{jetpack2.id}}\",\n\t\"name\": \"jetpack\",\n\t\"image\": \"{{jetpack2.image}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -286,36 +286,31 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/jetpacks?start_date=2019-11-30&end_date=2019-12-07",
+					"raw": "{{url}}/jetpacks/update",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"jetpacks"
-					],
-					"query": [
-						{
-							"key": "start_date",
-							"value": "2019-11-30"
-						},
-						{
-							"key": "end_date",
-							"value": "2019-12-07"
-						}
+						"jetpacks",
+						"update"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Book jetpack",
+			"name": "5. Book jetpack",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"id": "29cc937c-0294-49cd-ba3e-31f7b5f41eac",
 						"exec": [
-							"pm.globals.set('url', 'http://localhost:3000')"
+							"pm.globals.set('url', 'http://localhost:3000')",
+							"",
+							"pm.globals.set('booking1.jetpack_id', pm.variables.get('jetpack2.id'));",
+							"pm.globals.set('booking1.start_date', '2027-12-26');",
+							"pm.globals.set('booking1.end_date', '2027-12-31');"
 						],
 						"type": "text/javascript"
 					}
@@ -333,11 +328,13 @@
 							"    pm.response.json();",
 							"});",
 							"",
-							"pm.test(\"JSON body has jetpack information\", () => {",
+							"pm.test(\"JSON body has booking information\", () => {",
 							"    const data = pm.response.json();",
-							"    pm.expect(data.jetpack_id).to.eql(\"1b7c40d5-9966-4cae-8cfe-f54f75dd4b32\");",
-							"    pm.expect(data.start_date).to.eql(\"2027-12-26\");",
-							"    pm.expect(data.end_date).to.eql(\"2027-12-31\");",
+							"",
+							"    pm.expect(data.jetpack_id).to.eql(pm.variables.get('booking1.jetpack_id'));",
+							"    pm.expect(new Date(data.start_date)).to.eql(new Date(pm.variables.get('booking1.start_date')));",
+							"    pm.expect(new Date(data.end_date)).to.eql(new Date(pm.variables.get('booking1.end_date')));",
+							"",
 							"});"
 						],
 						"type": "text/javascript"
@@ -356,7 +353,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"jetpack_id\": \"1b7c40d5-9966-4cae-8cfe-f54f75dd4b32\",\n\t\"start_date\": \"2027-12-26\",\n\t\"end_date\": \"2027-12-31\"\n}",
+					"raw": "{\n\t\"jetpack_id\": \"{{booking1.jetpack_id}}\",\n\t\"start_date\": \"{{booking1.start_date}}\",\n\t\"end_date\": \"{{booking1.end_date}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -370,6 +367,170 @@
 					],
 					"path": [
 						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get all bookings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efb2687c-951d-4731-ba47-8dc5146a40d4",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", () => {",
+							"    pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"JSON body has an array\", () => {",
+							"    pm.expect(pm.response.json()).to.be.an('array').but.not.an('object');",
+							"});",
+							"",
+							"pm.test(\"Array contains previous booking\", () => {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0].jetpack_id).to.eql(pm.variables.get('booking1.jetpack_id'));",
+							"    pm.expect(new Date(data[0].start_date)).to.eql(new Date(pm.variables.get('booking1.start_date')));",
+							"    pm.expect(new Date(data[0].end_date)).to.eql(new Date(pm.variables.get('booking1.end_date')));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dd75af15-3802-4bf6-8680-85c406b09d77",
+						"exec": [
+							"pm.globals.set('url', 'http://localhost:3000')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/bookings",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Get jetpacks for dates",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efb2687c-951d-4731-ba47-8dc5146a40d4",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", () => {",
+							"    pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"JSON body has an array\", () => {",
+							"    pm.expect(pm.response.json()).to.be.an('array').but.not.an('object');",
+							"});",
+							"",
+							"pm.test(\"Array contains all jetpacks\", () => {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0].name).to.eql(pm.variables.get('jetpack1.name'));",
+							"    pm.expect(data[0].image).to.eql(pm.variables.get('jetpack1.image'));",
+							"    pm.expect(data[1].id).to.eql(pm.variables.get('jetpack2.id'));",
+							"    pm.expect(data[1].name).to.eql(pm.variables.get('jetpack2.name'));",
+							"    pm.expect(data[1].image).to.eql(pm.variables.get('jetpack2.image'));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dd75af15-3802-4bf6-8680-85c406b09d77",
+						"exec": [
+							"pm.globals.set('url', 'http://localhost:3000')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/jetpacks?start_date=2020-11-30&end_date=2020-12-07",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jetpacks"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2020-11-30"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-07"
+						}
 					]
 				}
 			},
